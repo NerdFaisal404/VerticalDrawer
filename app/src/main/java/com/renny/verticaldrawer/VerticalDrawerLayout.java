@@ -3,7 +3,6 @@ package com.renny.verticaldrawer;
 import android.content.Context;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,17 +58,14 @@ public class VerticalDrawerLayout extends ViewGroup {
     }
 
     private void init() {
-        //Step1：使用静态方法构造ViewDragHelper,其中需要传入一个ViewDragHelper.Callback回调对象.
         mTopViewDragHelper = ViewDragHelper.create(this, 1.5f, new ViewDragHelperCallBack());
         mTopViewDragHelper.setEdgeTrackingEnabled(ViewDragHelper.EDGE_TOP);
     }
 
-    //Step2：定义一个ViewDragHelper.Callback回调实现类
     private class ViewDragHelperCallBack extends ViewDragHelper.Callback {
         @Override
         public boolean tryCaptureView(View child, int pointerId) {
 
-            //返回ture则表示可以捕获该view,手指摸上一瞬间调运
             if (child == mDrawerView && !canScroll)
                 return false;
             return child == mDrawerView;
@@ -77,27 +73,25 @@ public class VerticalDrawerLayout extends ViewGroup {
 
         @Override
         public void onEdgeDragStarted(int edgeFlags, int pointerId) {
-            //setEdgeTrackingEnabled设置的边界滑动时触发
-            //captureChildView是为了让tryCaptureView返回false依旧生效
+
             mTopViewDragHelper.captureChildView(mDrawerView, pointerId);
         }
 
         @Override
         public int clampViewPositionHorizontal(View child, int left, int dx) {
-            //手指触摸移动时实时回调, left表示要到的x位置
+
             return super.clampViewPositionHorizontal(child, left, dx);
         }
 
         @Override
         public int clampViewPositionVertical(View child, int top, int dy) {
-            //手指触摸移动时实时回调, top表示要到的y位置
-            //保证手指挪动时只能向上，向下最大到0
+
             return Math.max(Math.min(top, 0), -mDrawerView.getHeight() + sourceHeight);
         }
 
         @Override
         public void onViewReleased(View releasedChild, float xvel, float yvel) {
-            //手指释放时回调
+
             float movePercentage = (releasedChild.getHeight() + releasedChild.getTop()) / (float) releasedChild.getHeight();
             int finalTop = (xvel >= 0 && movePercentage > 0.5f) ? 0 : -releasedChild.getHeight() + sourceHeight;
             mTopViewDragHelper.settleCapturedViewAt(releasedChild.getLeft(), finalTop);
@@ -161,13 +155,13 @@ public class VerticalDrawerLayout extends ViewGroup {
         return mIsOpen;
     }
 
-    //Step3：重写onInterceptTouchEvent回调ViewDragHelper中对应的方法.
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         return mTopViewDragHelper.shouldInterceptTouchEvent(ev);
     }
 
-    //Step3：重写onTouchEvent回调ViewDragHelper中对应的方法.
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         mTopViewDragHelper.processTouchEvent(event);
@@ -203,7 +197,7 @@ public class VerticalDrawerLayout extends ViewGroup {
         mContentView.measure(childWidthMeasureSpec, childHeightMeasureSpec);
 
         mDrawerView.measure(widthMeasureSpec, heightMeasureSpec);
-        Log.e("eee", "measure");
+
     }
 
     @Override
@@ -226,7 +220,6 @@ public class VerticalDrawerLayout extends ViewGroup {
                     mDrawerView.getMeasuredWidth() + params.leftMargin,
                     params.topMargin + sourceHeight);
         }
-        Log.e("eee", "layout" + changed);
     }
 
     public interface openChangeListener {
