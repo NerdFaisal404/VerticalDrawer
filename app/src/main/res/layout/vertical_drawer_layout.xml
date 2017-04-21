@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.renny.verticaldrawer.DrawerScrollLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <RelativeLayout
+        android:id="@+id/drawer_scroll_rel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible">
+
+        <ImageView
+            android:id="@+id/scroll_img_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/scroll"
+            android:scaleType="fitXY"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="你好这是卷轴页"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"/>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/scroll_img"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/juan"
+        />
+</com.renny.verticaldrawer.DrawerScrollLayout>
